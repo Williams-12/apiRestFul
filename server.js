@@ -1,24 +1,29 @@
-// chargement des variables d'environnement
-require(`dotenv`).config();
-const express = require(`express`);
-const connectDB = require(`./Config/db`);
-const bookRoutes = require(`./Routes/bookRoutes`);
-const authorRoutes = require(`./Routes/authorRoutes`);
-const authRoutes = require(`./Routes/authRoutes`);
+// Chargement des variables d'environnement
+require('dotenv').config();
+
+const express = require('express');
+const cors = require('cors');
+const connectDB = require('./config/db');
+const bookRoutes = require('./Routes/bookRoute');
+const authorRoutes = require('./Routes/authorRoutes');
+const authRoutes = require('./Routes/authRoute');
 
 const app = express();
 const port = process.env.PORT || 3000;
-// Middleware pour parser le corps de la requete
-app.use(express.json())
 
-// connexion à la base de données
+// Middleware analyser le corsp des requetes
+app.use(express.json());
+app.use(cors());
+
+// Connexion à la base de donnée
 connectDB();
 
-app.use(`/books`, bookRoutes);
-app.use(`/authors`, authorRoutes);
-app.use(`/auth`, authRoutes);
+// Définition des routes
+app.use('/books', bookRoutes);
+app.use('/authors', authorRoutes);
+app.use('/auth', authRoutes);
 
+// Démarrage du serveur
 app.listen(port, () => {
-    console.log(`Serveur demarrer sur http://localhost:${port}`);
-
-});
+    console.log(`Serveur en cour d'execussion dut http://localhost:${port}`);
+})
